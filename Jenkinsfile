@@ -5,30 +5,31 @@ def jsonParse(def json) {
 pipeline {
     agent any
     stages {
-        stage("Paso 1: Saludar"){
+        stage("paso 1"){
             steps {
                 script {
                 sh "echo 'Hello, World Usach 2021!'"
                 }
             }
         }
-        stage("Paso 2: Crear Archivo"){
+        stage("paso 2"){
             steps {
                 script {
-                sh "echo 'Hello, World Usach 2021!!' > hello-devops-usach-2021.txt"
+                sh "echo 'Compile Code!'"
                 }
             }
         }
-        stage("Paso 3: Guardar Archivo"){
+        stage("paso 3"){
             steps {
                 script {
-                sh "echo 'Persisitir Archivo!'"
+                sh "echo 'Test Code!'"
                 }
             }
-            post {
-                //record the test results and archive the jar file.
-                success {
-                    archiveArtifacts(artifacts:'**/*.txt', followSymlinks:false)
+        }
+        stage("paso 3"){
+            steps {
+                script {
+                sh "echo 'Build .Jar!'"
                 }
             }
         }
