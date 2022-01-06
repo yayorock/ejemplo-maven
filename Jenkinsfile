@@ -1,49 +1,34 @@
 import groovy.json.JsonSlurperClassic
-
 def jsonParse(def json) {
     new groovy.json.JsonSlurperClassic().parseText(json)
 }
 pipeline {
     agent any
     stages {
-        stage('Paso 1: Download and checkout') {
-            steps {
-                checkout(
-                        [$class: 'GitSCM',
-                        branches: [[name: 'jenkinsfile-as-code' ]],
-                        userRemoteConfigs: [[url: 'https://github.com/yayorock/ejemplo-maven.git']]])
-            }
-        }
-        stage('Paso 2: Compliar') {
+        stage("Paso 1: Saludar"){
             steps {
                 script {
-                    sh "echo 'Compile Code!'"
-                    // Run Maven on a Unix agent.
-                    withMaven {
-                        sh 'mvn clean compile -e'
-                    }
+                sh "echo 'Hello, World Usach 2021!'"
                 }
             }
         }
-        stage('Paso 3: Testear') {
+        stage("Paso 2: Crear Archivo"){
             steps {
                 script {
-                    sh "echo 'Test Code!'"
-                    // Run Maven on a Unix agent.
-                    withMaven {
-                        sh 'mvn clean test -e'
-                    }
+                sh "echo 'Hello, World Usach 2021!!' > hello-devops-usach-2021.txt"
                 }
             }
         }
-        stage('Paso 4: Build .Jar') {
+        stage("Paso 3: Guardar Archivo"){
             steps {
                 script {
-                    sh "echo 'Build .Jar!'"
-                    // Run Maven on a Unix agent.
-                    withMaven {
-                        sh 'mvn clean package -e'
-                    }
+                sh "echo 'Persisitir Archivo!'"
+                }
+            }
+            post {
+                //record the test results and archive the jar file.
+                success {
+                    archiveArtifacts(artifacts:'**/*.txt', followSymlinks:false)
                 }
             }
         }
