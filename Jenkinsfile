@@ -9,7 +9,7 @@ pipeline {
             steps {
                checkout(
                         [$class: 'GitSCM',
-                        branches: [[name: "jenkinsfile-as-code" ]],
+                        branches: [[name: "github-webhook" ]],
                         userRemoteConfigs: [[url: 'https://github.com/yayorock/ejemplo-maven.git']]])
             }
         }
