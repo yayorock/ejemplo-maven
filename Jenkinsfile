@@ -26,7 +26,7 @@ pipeline {
         stage('jar') {
             steps {
                 script {
-                    sh "Generando el jar'"
+                    sh "echo 'Generando el jar'"
                     sh "mvn clean package -e"
                 }
             }
