@@ -53,7 +53,22 @@ pipeline {
             steps {
                 script {
                     sh "echo 'Subiendo a nexus...'"
-                    nexusPublisher nexusInstanceId: 'nexus', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: '/var/jenkins_home/workspace/job-taller-10/build/DevOpsUsach2020-0.0.1.jar']], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '0.0.1']]]
+                    nexusPublisher nexusInstanceId: 'nexus', 
+                    nexusRepositoryId: 'devops-usach-nexus', 
+                    packages: [
+                        [$class: 'MavenPackage', 
+                            mavenAssetList: [
+                                [classifier: '', 
+                                extension: '.jar', 
+                                filePath: '/var/jenkins_home/workspace/job-taller-10/build/DevOpsUsach2020-0.0.1.jar']
+                            ], 
+                            mavenCoordinate: [
+                                artifactId: 'DevOpsUsach2020', 
+                                groupId: 'com.devopsusach2020', 
+                                packaging: 'jar', 
+                                version: '1.0.0']
+                        ]
+                    ]
                 }
             }
         }
