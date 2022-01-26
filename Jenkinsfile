@@ -69,7 +69,7 @@ pipeline {
             steps {
                 script {
                     sh ' echo "Iniciando..."'
-                    sh ' nohup bash java -jar DevOpsUsach2020-0.0.1.jar & >/dev/null'
+                    sh ' nohup java -jar DevOpsUsach2020-0.0.1.jar & > /dev/null'
                     sh " sleep 30 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
                 }
             }
