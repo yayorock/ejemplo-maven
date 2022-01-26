@@ -6,6 +6,10 @@ def jsonParse(def json) {
 
 pipeline {
     agent any
+    environment {
+        NEXUS_USER_VAR = credentials('nexus_user')
+        NEXUS_USER_PASS_VAR = credentials('nexus_pass')
+    }
     stages {
         stage('compile') {
             steps {
@@ -50,6 +54,23 @@ pipeline {
                 script {
                     sh "echo 'Subiendo a nexus...'"
                     nexusPublisher nexusInstanceId: 'nexus', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: '/var/jenkins_home/workspace/job-taller-10/build/DevOpsUsach2020-0.0.1.jar']], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '0.0.1']]]
+                }
+            }
+        }
+        stage('Bajar de nexus'){
+            steps {
+                script {
+                    sh ' echo "Bajando jar de nexus.."'
+                    sh ' curl -X GET -u $NEXUS_USER_VAR:$NEXUS_USER_PASS_VAR "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
+                }
+            }
+        }
+        stage('Test del Build'){
+            steps {
+                script {
+                    sh ' echo "Iniciando..."'
+                    sh ' nohup bash java -jar DevOpsUsach2020-0.0.1.jar &>/dev/null'
+                    sh " sleep 30 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
                 }
             }
         }
